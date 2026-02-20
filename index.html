@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PinoyQuiz - Filipino Quiz Game</title>
+<meta name="title" content="PinoyQuiz - Filipino Quiz Game">
+<meta name="description" content="Play the ultimate Filipino quiz game! Test your knowledge in history, culture, geography, food, and sports. Fun, educational.">
+<meta name="keywords" content="Filipino quiz, Philippines trivia, history quiz, geography quiz, Filipino culture game, offline quiz app">
+<meta name="author" content="JohnDev19">
+  
+<meta name="theme-color" content="#1a0d35">
+
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/logo.png">
+<link rel="stylesheet" href="./assets/bootstrap/bootstrap-icons.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="stars" id="stars"></div>
+
+<div id="phone">
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal-overlay bottom" id="settingsModal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title"><i class="bi bi-gear-fill"></i> Settings</div>
+      <div class="setting-row">
+        <div class="setting-left">
+          <i class="bi bi-volume-up-fill" style="color:#00D4A8"></i>
+          <div>
+            <div class="setting-label">Sound Effects</div>
+            <div class="setting-desc">Toggle game sounds</div>
+          </div>
+        </div>
+        <button class="toggle on" id="toggleSound"></button>
+      </div>
+      <div class="setting-row">
+        <div class="setting-left">
+          <i class="bi bi-music-note-beamed" style="color:#FFD700"></i>
+          <div>
+            <div class="setting-label">Background Music</div>
+            <div class="setting-desc">Toggle ambient music</div>
+          </div>
+        </div>
+        <button class="toggle on" id="toggleMusic"></button>
+      </div>
+      <div class="setting-row">
+        <div class="setting-left">
+          <i class="bi bi-bell-fill" style="color:#FF6B35"></i>
+          <div>
+            <div class="setting-label">Notifications</div>
+            <div class="setting-desc">Daily quiz reminders</div>
+          </div>
+        </div>
+        <button class="toggle" id="toggleNotifs"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 1: LOADING -->
+  <div class="panel active" id="pLoading">
+    <div class="load-logo">
+      <div class="load-emblem"><i class="bi bi-star-fill" style="color:#FFD700;font-size:40px"></i></div>
+      <div class="load-title">PinoyQuiz</div>
+      <div class="load-sub">Filipino Trivia Challenge</div>
+    </div>
+    <div class="load-bar-wrap">
+      <div class="load-bar" id="loadBar"></div>
+    </div>
+    <div class="load-tip">Loading questions...</div>
+  </div>
+
+  <!-- PANEL 2: MENU -->
+  <div class="panel" id="pMenu">
+    <div class="nav">
+      <div class="nav-left">
+        <div class="nav-score-pill">
+          <i class="bi bi-star-fill"></i>
+          <div>
+            <div class="nav-score-val" id="menuScore">0</div>
+            <div class="nav-level" id="menuLevel">LVL 1</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-brand">PinoyQuiz</div>
+      <div class="nav-right">
+        <div class="icon-btn" id="settingsBtn"><i class="bi bi-gear-fill"></i></div>
+      </div>
+    </div>
+    <div class="menu-body">
+      <div class="menu-hero">
+        <div class="menu-emblem"><i class="bi bi-star-fill" style="color:#FFD700;font-size:32px"></i></div>
+        <div class="menu-title">PinoyQuiz</div>
+        <div class="menu-tagline">Test Your Filipino Knowledge</div>
+      </div>
+
+      <div class="menu-stats">
+        <div class="menu-stat">
+          <i class="bi bi-trophy-fill" style="color:var(--sun)"></i>
+          <div class="sv" id="msBestScore">0</div>
+          <div class="sl">Best Score</div>
+        </div>
+        <div class="menu-stat">
+          <i class="bi bi-check-circle-fill" style="color:var(--teal)"></i>
+          <div class="sv" id="msTotalGames">0</div>
+          <div class="sl">Games</div>
+        </div>
+        <div class="menu-stat">
+          <i class="bi bi-lightning-fill" style="color:var(--orange)"></i>
+          <div class="sv" id="msStreak">0</div>
+          <div class="sl">Streak</div>
+        </div>
+      </div>
+
+      <button class="play-btn" id="playBtn">
+        <i class="bi bi-play-circle-fill"></i> Play Now
+      </button>
+
+      <div class="menu-footer">
+        500 questions across 5 categories<br>
+        <span>History &middot; Food &middot; Geography &middot; Culture &middot; Sports</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3: CATEGORIES -->
+  <div class="panel" id="pCategories">
+    <div class="nav">
+      <div class="nav-left">
+        <div class="nav-back" id="catBackBtn"><i class="bi bi-arrow-left"></i></div>
+        <span style="font-family:'Fredoka One',cursive;font-size:18px;color:white;">Categories</span>
+      </div>
+      <div class="nav-right">
+        <div class="icon-btn" id="catSettingsBtn"><i class="bi bi-gear-fill"></i></div>
+      </div>
+    </div>
+    <div class="cat-body">
+      <div class="cat-section-label"><i class="bi bi-lightning-fill" style="color:var(--sun)"></i> Difficulty</div>
+      <div class="diff-row">
+        <button class="diff-btn sel-easy" data-diff="easy"><i class="bi bi-emoji-smile-fill"></i> Easy</button>
+        <button class="diff-btn" data-diff="medium"><i class="bi bi-fire"></i> Medium</button>
+        <button class="diff-btn" data-diff="hard"><i class="bi bi-skull-fill"></i> Hard</button>
+      </div>
+
+      <div class="cat-section-label" style="margin-top:4px;"><i class="bi bi-grid-fill" style="color:var(--sun)"></i> Category</div>
+      <div class="cat-grid" id="catGrid">
+        <div class="cat-item sel" data-cat="all" style="--cc:#FFD700">
+          <i class="bi bi-flag-fill cat-emoji" style="color:#FFD700"></i>
+          <div class="cat-name">All Topics</div>
+          <div class="cat-count">500 QS</div>
+        </div>
+        <div class="cat-item" data-cat="history" style="--cc:#FF6B35">
+          <i class="bi bi-book-fill cat-emoji" style="color:#FF6B35"></i>
+          <div class="cat-name">History</div>
+          <div class="cat-count">100 QS</div>
+        </div>
+        <div class="cat-item" data-cat="food" style="--cc:#00D4A8">
+          <i class="bi bi-cup-hot-fill cat-emoji" style="color:#00D4A8"></i>
+          <div class="cat-name">Food</div>
+          <div class="cat-count">100 QS</div>
+        </div>
+        <div class="cat-item" data-cat="geo" style="--cc:#1A5FFF">
+          <i class="bi bi-globe-americas cat-emoji" style="color:#1A5FFF"></i>
+          <div class="cat-name">Geography</div>
+          <div class="cat-count">100 QS</div>
+        </div>
+        <div class="cat-item" data-cat="culture" style="--cc:#FF3347">
+          <i class="bi bi-palette-fill cat-emoji" style="color:#FF3347"></i>
+          <div class="cat-name">Culture</div>
+          <div class="cat-count">100 QS</div>
+        </div>
+        <div class="cat-item" data-cat="sports" style="--cc:#9B5DE5">
+          <i class="bi bi-trophy-fill cat-emoji" style="color:#9B5DE5"></i>
+          <div class="cat-name">Sports</div>
+          <div class="cat-count">100 QS</div>
+        </div>
+      </div>
+
+      <button class="cat-start-btn" id="catStartBtn">
+        <i class="bi bi-play-fill"></i> Start Game
+      </button>
+    </div>
+  </div>
+
+  <!-- QUIT MODAL -->
+  <div class="modal-overlay" id="quitModal">
+    <div class="quit-sheet">
+      <div class="quit-icon"><i class="bi bi-pause-circle-fill" style="color:var(--sun);font-size:48px"></i></div>
+      <div class="quit-title">Game Paused</div>
+      <div class="quit-msg">Do you want to continue or quit?</div>
+      <button class="quit-resume-btn" id="resumeBtn"><i class="bi bi-play-fill"></i> Resume</button>
+      <button class="quit-exit-btn" id="quitBtn"><i class="bi bi-box-arrow-left"></i> Quit Game</button>
+    </div>
+  </div>
+
+  <!-- PANEL 4: QUIZ -->
+  <div class="panel" id="pQuiz">
+    <div class="quiz-header">
+      <div class="quiz-top">
+        <div class="q-num" id="qNum">QUESTION 1 / 10</div>
+        <div class="quiz-top-right">
+          <div class="quiz-score">
+            <i class="bi bi-star-fill"></i>
+            <span id="qScore">0</span>
+          </div>
+          <div class="nav-back" id="quizBackBtn"><i class="bi bi-arrow-left"></i></div>
+        </div>
+      </div>
+      <div style="position:relative;margin-top:2px">
+        <div class="timer-text" id="timerText">15s</div>
+        <div class="timer-wrap">
+          <div class="timer-bar" id="timerBar"></div>
+        </div>
+      </div>
+      <div class="progress-dots" id="progressDots"></div>
+    </div>
+    <div class="q-area" id="qArea">
+      <div class="q-badge" id="qBadge"><i class="bi bi-flag-fill"></i> General</div>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="ans-grid" id="ansGrid"></div>
+    </div>
+    <div class="feedback" id="feedback">
+      <div class="fb-ico" id="fbIco"><i class="bi bi-check-circle-fill"></i></div>
+      <div class="fb-cnt">
+        <div class="fb-title" id="fbTitle">Correct!</div>
+        <div class="fb-detail" id="fbDetail"></div>
+      </div>
+      <button class="nxt-btn" id="nxtBtn"><i class="bi bi-arrow-right"></i> Next</button>
+    </div>
+  </div>
+
+  <!-- PANEL 5: RESULTS -->
+  <div class="panel" id="pResults">
+    <div class="res-trophy" id="resTrophy"><i class="bi bi-trophy-fill" style="color:#FFD700;font-size:60px"></i></div>
+    <div class="res-title" id="resTitle">Excellent!</div>
+    <div class="res-msg" id="resMsg">You completed the quiz!</div>
+    <div class="score-ring" id="scoreRing">
+      <div class="ring-inner">
+        <div class="ring-big" id="ringScore">0</div>
+        <div class="ring-of" id="ringOf">/ 10</div>
+      </div>
+    </div>
+    <div class="res-stats">
+      <div class="res-stat">
+        <i class="bi bi-check-circle-fill" style="color:var(--teal)"></i>
+        <div class="sv" id="rsCorrect">0</div>
+        <div class="sl">Correct</div>
+      </div>
+      <div class="res-stat">
+        <i class="bi bi-x-circle-fill" style="color:var(--wrong)"></i>
+        <div class="sv" id="rsWrong">0</div>
+        <div class="sl">Wrong</div>
+      </div>
+      <div class="res-stat">
+        <i class="bi bi-lightning-fill" style="color:var(--orange)"></i>
+        <div class="sv" id="rsStreak">0</div>
+        <div class="sl">Streak</div>
+      </div>
+    </div>
+    <div class="res-btns">
+      <button class="btn-main" id="retryBtn"><i class="bi bi-arrow-clockwise"></i> Play Again</button>
+      <button class="btn-sec" id="homeBtn"><i class="bi bi-house-fill"></i> Back to Menu</button>
+    </div>
+  </div>
+
+</div>
+
+<audio id="bgMusic" src="./assets/sounds/phase-tranquilium-main-version-40756-03-34.mp3" loop></audio>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
