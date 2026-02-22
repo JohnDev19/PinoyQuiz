@@ -8,7 +8,6 @@
 <meta name="description" content="Play the ultimate Filipino quiz game! Test your knowledge in history, culture, geography, food, and sports. Fun, educational.">
 <meta name="keywords" content="Filipino quiz, Philippines trivia, history quiz, geography quiz, Filipino culture game, offline quiz app">
 <meta name="author" content="JohnDev19">
-  
 <meta name="theme-color" content="#1a0d35">
 
 <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/logo.png">
@@ -57,6 +56,16 @@
         </div>
         <button class="toggle" id="toggleNotifs"></button>
       </div>
+      <div class="setting-row" id="helpRow" style="border-bottom:none;">
+        <div class="setting-left">
+          <i class="bi bi-question-circle-fill" style="color:#9B5DE5"></i>
+          <div>
+            <div class="setting-label">How to Play</div>
+            <div class="setting-desc">Game rules &amp; features explained</div>
+          </div>
+        </div>
+        <button class="icon-btn" id="helpBtn"><i class="bi bi-arrow-right"></i></button>
+      </div>
     </div>
   </div>
 
@@ -85,7 +94,7 @@
           </div>
         </div>
       </div>
-      <div class="nav-brand">PinoyQuiz</div>
+      <div id="navRank" class="nav-rank"></div>
       <div class="nav-right">
         <div class="icon-btn" id="settingsBtn"><i class="bi bi-gear-fill"></i></div>
       </div>
@@ -119,9 +128,19 @@
         <i class="bi bi-play-circle-fill"></i> Play Now
       </button>
 
+      <!-- ZEN MODE BUTTON -->
+      <button class="zen-menu-btn" id="zenBtn">
+        <i class="bi bi-peace-fill"></i>
+        <div class="zen-btn-text">
+          <span class="zen-btn-label">Zen Mode</span>
+          <span class="zen-btn-sub">No timer · No pressure · Infinite</span>
+        </div>
+        <i class="bi bi-chevron-right zen-btn-arrow"></i>
+      </button>
+
       <div class="menu-footer">
-        500 questions across 5 categories<br>
-        <span>History &middot; Food &middot; Geography &middot; Culture &middot; Sports</span>
+        <span id="footer-stats"></span><br>
+        <span id="footer-categories"></span>
       </div>
     </div>
   </div>
@@ -150,32 +169,47 @@
         <div class="cat-item sel" data-cat="all" style="--cc:#FFD700">
           <i class="bi bi-flag-fill cat-emoji" style="color:#FFD700"></i>
           <div class="cat-name">All Topics</div>
-          <div class="cat-count">500 QS</div>
+          <div class="cat-count">0 QS</div>
         </div>
         <div class="cat-item" data-cat="history" style="--cc:#FF6B35">
           <i class="bi bi-book-fill cat-emoji" style="color:#FF6B35"></i>
           <div class="cat-name">History</div>
-          <div class="cat-count">100 QS</div>
+          <div class="cat-count">0 QS</div>
         </div>
         <div class="cat-item" data-cat="food" style="--cc:#00D4A8">
           <i class="bi bi-cup-hot-fill cat-emoji" style="color:#00D4A8"></i>
           <div class="cat-name">Food</div>
-          <div class="cat-count">100 QS</div>
+          <div class="cat-count">0 QS</div>
         </div>
         <div class="cat-item" data-cat="geo" style="--cc:#1A5FFF">
           <i class="bi bi-globe-americas cat-emoji" style="color:#1A5FFF"></i>
           <div class="cat-name">Geography</div>
-          <div class="cat-count">100 QS</div>
+          <div class="cat-count">0 QS</div>
         </div>
         <div class="cat-item" data-cat="culture" style="--cc:#FF3347">
           <i class="bi bi-palette-fill cat-emoji" style="color:#FF3347"></i>
           <div class="cat-name">Culture</div>
-          <div class="cat-count">100 QS</div>
+          <div class="cat-count">0 QS</div>
         </div>
         <div class="cat-item" data-cat="sports" style="--cc:#9B5DE5">
           <i class="bi bi-trophy-fill cat-emoji" style="color:#9B5DE5"></i>
           <div class="cat-name">Sports</div>
-          <div class="cat-count">100 QS</div>
+          <div class="cat-count">0 QS</div>
+        </div>
+        <div class="cat-item" data-cat="science" style="--cc:#00FFA5">
+          <i class="bi bi-flask-fill cat-emoji" style="color:#00FFA5"></i>
+          <div class="cat-name">Science</div>
+          <div class="cat-count">0 QS</div>
+        </div>
+        <div class="cat-item" data-cat="literature" style="--cc:#FF8C00">
+          <i class="bi bi-book-half cat-emoji" style="color:#FF8C00"></i>
+          <div class="cat-name">Literature</div>
+          <div class="cat-count">0 QS</div>
+        </div>
+        <div class="cat-item" data-cat="entertainment" style="--cc:#8A2BE2">
+          <i class="bi bi-camera-reels-fill cat-emoji" style="color:#8A2BE2"></i>
+          <div class="cat-name">Entertainment</div>
+          <div class="cat-count">0 QS</div>
         </div>
       </div>
 
@@ -266,10 +300,175 @@
     </div>
   </div>
 
+  <!-- PANEL 6: LEVEL/PROGRESS -->
+  <div class="panel" id="pLevel">
+    <div class="nav">
+      <div class="nav-left">
+        <div class="nav-back" id="levelBackBtn"><i class="bi bi-arrow-left"></i></div>
+        <span style="font-family:'Fredoka One',cursive;font-size:18px;color:white;">Stats</span>
+      </div>
+      <div class="nav-right"></div>
+    </div>
+    <div class="level-body">
+      <div class="level-title" id="levelTitle">You're knowledgeable at All Topics</div>
+      <div class="level-bars" id="levelBars"></div>
+    </div>
+  </div>
+
+  <!-- PANEL 7: HELP -->
+  <div class="panel" id="pHelp">
+    <div class="nav">
+      <div class="nav-left">
+        <div class="nav-back" id="helpBackBtn"><i class="bi bi-arrow-left"></i></div>
+        <span style="font-family:'Fredoka One',cursive;font-size:18px;color:white;">How to Play</span>
+      </div>
+    </div>
+    <div class="help-body">
+      <div class="help-section">
+        <div class="help-section-title"><i class="bi bi-controller" style="color:var(--sun)"></i> Basic Gameplay</div>
+        <div class="help-card">
+          <p>Each quiz has <strong>10 questions</strong>. Pick the correct answer before time runs out. The faster you answer, the more bonus points you earn!</p>
+        </div>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title"><i class="bi bi-star-fill" style="color:var(--sun)"></i> Scoring</div>
+        <div class="help-card">
+          <div class="help-row"><span class="help-tag easy">Easy</span><span>10 pts per correct answer</span></div>
+          <div class="help-row"><span class="help-tag medium">Medium</span><span>15 pts per correct answer</span></div>
+          <div class="help-row"><span class="help-tag hard">Hard</span><span>20 pts per correct answer</span></div>
+          <div class="help-divider"></div>
+          <div class="help-row"><i class="bi bi-clock-fill" style="color:var(--teal)"></i><span>Time bonus: +0.5 pts per second remaining</span></div>
+          <div class="help-row"><i class="bi bi-lightning-fill" style="color:var(--sun)"></i><span>Combo: 3+ correct in a row triggers a combo bonus!</span></div>
+        </div>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title"><i class="bi bi-fire" style="color:var(--orange)"></i> Special Modes</div>
+        <div class="help-card">
+          <div class="help-row"><span class="help-tag fast">⚡ Fast!</span><span>Half the time, +5 bonus if correct</span></div>
+          <div class="help-row"><span class="help-tag risk">🎲 Risk!</span><span>+5 if correct, -5 if wrong</span></div>
+          <div class="help-row"><span class="help-tag sudden">💀 Sudden Death!</span><span>One wrong answer ends the game</span></div>
+        </div>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title"><i class="bi bi-peace-fill" style="color:#8ecae6"></i> Zen Mode</div>
+        <div class="help-card">
+          <p><strong>Zen Mode</strong> is a relaxed, pressure-free experience. No timer, no scoring, no hints — just pure knowledge. Questions span all categories and never repeat until every question has been answered at least once.</p>
+        </div>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title"><i class="bi bi-lightbulb-fill" style="color:#9B5DE5"></i> Hint</div>
+        <div class="help-card">
+          <p>The <strong>Hint button</strong> removes 2 wrong answers (50/50). It costs <strong>50 points</strong> from your overall Best Score.</p>
+        </div>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title"><i class="bi bi-lock-fill" style="color:var(--wrong)"></i> Unlocking Categories</div>
+        <div class="help-card">
+          <p><strong>Entertainment</strong> is the default. To unlock the next category, you must <strong>answer every question</strong> in the current one at least once.</p>
+          <div class="help-divider"></div>
+          <div class="help-unlock-chain">
+            <div class="help-unlock-item free">🎬 Entertainment <span>Free</span></div>
+            <div class="help-unlock-arrow">↓ Complete all</div>
+            <div class="help-unlock-item">🍜 Food</div>
+            <div class="help-unlock-arrow">↓ Complete all</div>
+            <div class="help-unlock-item">🎨 Culture</div>
+            <div class="help-unlock-arrow">↓ Complete all</div>
+            <div class="help-unlock-item">📖 History</div>
+            <div class="help-unlock-arrow">↓ Complete all</div>
+            <div class="help-unlock-item">🌏 Geography</div>
+            <div class="help-unlock-arrow">↓ Complete all</div>
+            <div class="help-unlock-item">🏆 Sports → 🔬 Science → 📚 Literature</div>
+          </div>
+          <div class="help-divider"></div>
+          <p><strong>All Topics</strong> unlocks when 2 or more categories are available.</p>
+        </div>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title"><i class="bi bi-bar-chart-fill" style="color:var(--teal)"></i> Stats Panel</div>
+        <div class="help-card">
+          <p>Tap your <strong>score pill</strong> on the main menu to see your progress in each category, how many questions you've answered, and which categories are still locked.</p>
+        </div>
+      </div>
+      <div class="help-footer">Made with ❤️ — JohnDev19</div>
+    </div>
+  </div>
+
+  <!-- PANEL 8: ZEN MODE -->
+  <div class="panel" id="pZen">
+    <div class="zen-bg" id="zenBg"></div>
+    <div class="zen-bg zen-bg-next" id="zenBgNext"></div>
+
+    <div class="zen-anim-layer" id="zenAnimLayer"></div>
+
+    <div class="zen-orbs">
+      <div class="zen-orb zen-orb-1"></div>
+      <div class="zen-orb zen-orb-2"></div>
+      <div class="zen-orb zen-orb-3"></div>
+    </div>
+    
+    <canvas id="zenSnowCanvas" class="zen-snow-canvas"></canvas>
+    <canvas id="zenSunsetCanvas" class="zen-sunset-canvas"></canvas>
+
+    <div class="zen-header">
+      <div class="zen-back" id="zenBackBtn">
+        <i class="bi bi-arrow-left"></i>
+      </div>
+      <div class="zen-header-spacer"></div>
+      <div class="zen-timer-pill">
+        <i class="bi bi-clock"></i>
+        <span id="zenTimer">00:00</span>
+      </div>
+    </div>
+
+    <!-- Zen Question Area -->
+    <div class="zen-q-area">
+      <div class="zen-cat-badge" id="zenCat">
+        <i class="bi bi-flag-fill"></i> General
+      </div>
+      <div class="zen-q-text" id="zenText">Loading...</div>
+      <div class="zen-ans-grid" id="zenAnsGrid"></div>
+    </div>
+
+    <!-- Zen Feedback -->
+    <div class="zen-feedback" id="zenFeedback">
+      <div class="zen-fb-content">
+        <div class="zen-fb-title" id="zenFbTitle">Correct</div>
+        <div class="zen-fb-detail" id="zenFbDetail"></div>
+      </div>
+      <button class="zen-nxt-btn" id="zenNxtBtn">
+        Next <i class="bi bi-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ZEN QUIT MODAL -->
+  <div class="modal-overlay" id="zenQuitModal">
+    <div class="zqs-wrap">
+      <div class="zqs-orb zqs-orb1"></div>
+      <div class="zqs-orb zqs-orb2"></div>
+      <div class="zqs-sheet">
+        <div class="zqs-top">
+          <div class="zqs-icon-ring">
+            <i class="bi bi-peace-fill"></i>
+          </div>
+          <div class="zqs-title">A moment of calm</div>
+        </div>
+        <div class="zqs-prose" id="zenQuitProse">
+          You explored <strong>0</strong> questions
+        </div>
+        <div class="zqs-sep"></div>
+        <button class="zqs-btn-primary" id="zenResumeBtn">Continue</button>
+        <button class="zqs-btn-ghost"   id="zenQuitBtn">Exit to Menu</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <audio id="bgMusic" src="./assets/sounds/phase-tranquilium-main-version-40756-03-34.mp3" loop></audio>
-<script src="data.js"></script>
+<audio id="zenMusic" src="./assets/sounds/zen-ambient.mp3" loop></audio>
+
 <script src="script.js"></script>
+<script src="data.js"></script>
 </body>
 </html>
