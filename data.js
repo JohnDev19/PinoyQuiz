@@ -1,4 +1,4 @@
-// ===== QUESTION =====
+// ===== QUESTION BANK (English) =====
 var ALL_QUESTIONS = [
   // ===== HISTORY =====
   { cat:'history', text:"Who is considered the 'Father of the Philippine Revolution'?", answers:['Andres Bonifacio','Jose Rizal','Emilio Aguinaldo','Antonio Luna'], correct:0, fact:'Andres Bonifacio founded the Katipunan in 1892.' },
